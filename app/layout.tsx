@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MATERNITY RISK PREDICTION SYSTEM",
+  title: "ART HYPERTENSION RISK PREDICTOR",
   description: "AI PREDICTION SYSTEM",
 };
 
