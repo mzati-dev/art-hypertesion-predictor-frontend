@@ -59,7 +59,8 @@ type ApiResponse = {
 };
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:5001', // Updated port for ART model API
+  // baseURL: 'http://127.0.0.1:5001', 
+  baseURL: 'https://art-hypertesion-predictor-backend.onrender.com',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
