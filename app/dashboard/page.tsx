@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
-import { Pie, Bar } from 'react-chartjs-2';
 import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
