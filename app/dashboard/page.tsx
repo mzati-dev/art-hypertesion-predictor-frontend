@@ -879,7 +879,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="container mx-auto p-4 pt-40 sm:pt-28">
+      <main className="container mx-auto p-4 pt-48 sm:pt-32 pb-24">
         {activeTab === 'home' && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">ART Patient Dashboard</h2>
@@ -1350,7 +1350,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <div className="flex justify-center">
+                <div className="flex justify-center mb-8">
                   <button
                     type="submit"
                     disabled={loading}
