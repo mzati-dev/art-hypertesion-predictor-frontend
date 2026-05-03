@@ -66,7 +66,7 @@ export default function LandingPage() {
 
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-purple-900 bg-opacity-70 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-3 py-2 sm:px-6 sm:py-4">
+        <div className="container mx-auto px-4 sm:px-6 py-2 sm:py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
             <div className="flex items-center w-full sm:w-auto justify-between sm:justify-start">
               <div className="w-10 h-10 sm:w-16 sm:h-16 relative mr-2 sm:mr-3 rounded-full overflow-hidden flex-shrink-0">
@@ -79,22 +79,22 @@ export default function LandingPage() {
                   sizes="(max-width: 640px) 40px, 64px"
                 />
               </div>
-              <h1 className="text-xs sm:text-xl font-bold text-white whitespace-normal sm:whitespace-nowrap leading-tight sm:leading-normal">
+              <h1 className="text-sm sm:text-xl font-bold text-white text-center sm:text-left">
                 HYPERTENSION RISK PREDICTION FOR ART PATIENTS
               </h1>
             </div>
-            <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto justify-end">
+            <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
               <Link
                 href="/signin"
                 onClick={(e) => handleNavigation(e, '/signin')}
-                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-2 sm:py-2 sm:px-4 rounded-md transition duration-300 text-xs sm:text-base text-center"
+                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-4 sm:py-2 sm:px-4 rounded-md transition duration-300 text-sm sm:text-base text-center"
               >
                 Sign In
               </Link>
               <Link
                 href="/signup"
                 onClick={(e) => handleNavigation(e, '/signup')}
-                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-2 sm:py-2 sm:px-4 rounded-md transition duration-300 text-xs sm:text-base text-center"
+                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-4 sm:py-2 sm:px-4 rounded-md transition duration-300 text-sm sm:text-base text-center"
               >
                 Sign Up
               </Link>

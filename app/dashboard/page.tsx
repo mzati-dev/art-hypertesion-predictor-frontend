@@ -879,7 +879,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="container mx-auto p-4 pt-32 sm:pt-24">
+      <main className="container mx-auto p-4 pt-40 sm:pt-28">
         {activeTab === 'home' && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">ART Patient Dashboard</h2>
@@ -932,7 +932,7 @@ export default function Dashboard() {
                 </div>
               </div>
               {/* Status Filter Buttons */}
-              <div className="mb-4 flex gap-2 flex-wrap">
+              <div className="mb-4 grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                 <button
                   onClick={() => setStatusFilter('All')}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition duration-200 cursor-pointer ${statusFilter === 'All'
@@ -970,7 +970,7 @@ export default function Dashboard() {
                   Low Risk ({patients.filter(p => p.status === 'Low').length})
                 </button>
               </div>
-              <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
                 <table className="min-w-full divide-y divide-purple-600">
                   <thead>
                     <tr>
@@ -1046,6 +1046,11 @@ export default function Dashboard() {
                     })}
                   </tbody>
                 </table>
+                {filteredPatients.length === 0 && (
+                  <div className="text-center py-8 text-purple-300">
+                    No patient records found
+                  </div>
+                )}
               </div>
               {/* Add See More/Collapse button here */}
               {/* {patients.length > 5 && (
