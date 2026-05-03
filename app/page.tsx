@@ -120,13 +120,13 @@ export default function LandingPage() {
         {/* Content Overlay */}
         <div className="container mx-auto px-6 py-24 relative z-10 text-white">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-5xl md:text-7xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-green-300 via-green-400 to-green-500">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-green-300 via-green-400 to-green-500">
               PREDICTING HYPERTENSION IN HIV PATIENTS ON ART
             </h2>
 
             <div className="bg-purple-900 bg-opacity-50 backdrop-blur-sm p-8 rounded-xl border border-purple-700">
               <p className="text-xl md:text-2xl mb-8 text-green-100">
-                Our AI-powered system predicts hypertension risk in HIV patients on ART with 94% accuracy,
+                Our AI-powered system predicts hypertension risk in HIV patients on ART with 88% accuracy,
                 enabling early intervention and personalized care recommendations.
               </p>
 
