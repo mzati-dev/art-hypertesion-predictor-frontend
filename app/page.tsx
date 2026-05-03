@@ -66,41 +66,20 @@ export default function LandingPage() {
 
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-purple-900 bg-opacity-70 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-4 py-3 sm:px-6 sm:py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
+        <div className="container mx-auto px-3 py-2 sm:px-6 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
             <div className="flex items-center w-full sm:w-auto justify-between sm:justify-start">
-
-              <div className="w-12 h-12 sm:w-16 sm:h-16 relative mr-2 sm:mr-3 rounded-full overflow-hidden">
+              <div className="w-10 h-10 sm:w-16 sm:h-16 relative mr-2 sm:mr-3 rounded-full overflow-hidden flex-shrink-0">
                 <Image
                   src="/maternal_Ai_logo-removebg-preview.png"
                   alt="Hypertension Risk Logo"
                   fill
                   className="object-contain"
                   priority
-                  sizes="(max-width: 640px) 48px, 64px"
+                  sizes="(max-width: 640px) 40px, 64px"
                 />
               </div>
-              {/* <div className="w-12 h-12 sm:w-16 sm:h-16 relative mr-2 sm:mr-3">
-  <Image
-    src="/maternal_Ai_logo-removebg-preview.png"
-    alt="Hypertension Risk Logo"
-    fill
-    className="object-contain"
-    priority
-    sizes="(max-width: 640px) 48px, 64px"
-  />
-</div> */}
-              {/* <div className="w-8 h-8 sm:w-10 sm:h-10 relative mr-2 sm:mr-3">
-                <Image
-                  src="/maternal_Ai_logo-removebg-preview.png"
-                  alt="Maternal Risk Logo"
-                  fill
-                  className="object-contain"
-                  priority
-                  sizes="(max-width: 640px) 32px, 40px"
-                />
-              </div> */}
-              <h1 className="text-lg sm:text-xl font-bold text-white whitespace-nowrap">
+              <h1 className="text-xs sm:text-xl font-bold text-white whitespace-normal sm:whitespace-nowrap leading-tight sm:leading-normal">
                 HYPERTENSION RISK PREDICTION FOR ART PATIENTS
               </h1>
             </div>
@@ -108,14 +87,14 @@ export default function LandingPage() {
               <Link
                 href="/signin"
                 onClick={(e) => handleNavigation(e, '/signin')}
-                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-md transition duration-300 text-sm sm:text-base "
+                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-2 sm:py-2 sm:px-4 rounded-md transition duration-300 text-xs sm:text-base text-center"
               >
                 Sign In
               </Link>
               <Link
                 href="/signup"
                 onClick={(e) => handleNavigation(e, '/signup')}
-                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-md transition duration-300 text-sm sm:text-base"
+                className="bg-green-600 hover:bg-green-500 text-white font-bold py-1.5 px-2 sm:py-2 sm:px-4 rounded-md transition duration-300 text-xs sm:text-base text-center"
               >
                 Sign Up
               </Link>

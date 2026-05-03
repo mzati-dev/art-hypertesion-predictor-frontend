@@ -149,7 +149,7 @@ export default function SignUpPage() {
                   type="email"
                   id="email"
                   className="w-full px-4 py-3 bg-purple-800 bg-opacity-50 border border-purple-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 text-white placeholder-purple-300"
-                  placeholder="your@email.com"
+                  placeholder=""
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

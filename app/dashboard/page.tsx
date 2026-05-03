@@ -879,7 +879,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="container mx-auto p-4 pt-24">
+      <main className="container mx-auto p-4 pt-32 sm:pt-24">
         {activeTab === 'home' && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">ART Patient Dashboard</h2>
@@ -970,7 +970,7 @@ export default function Dashboard() {
                   Low Risk ({patients.filter(p => p.status === 'Low').length})
                 </button>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
                 <table className="min-w-full divide-y divide-purple-600">
                   <thead>
                     <tr>
