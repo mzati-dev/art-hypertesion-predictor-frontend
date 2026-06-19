@@ -124,9 +124,22 @@ export default function Dashboard() {
   const [statusFilter, setStatusFilter] = useState<'All' | RiskStatus>('All');
 
 
+  // const filteredPatients = patients.filter(patient => {
+  //   const matchesSearch = patient.name.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchesStatus = statusFilter === 'All' || patient.status === statusFilter;
+  //   return matchesSearch && matchesStatus;
+  // });
+
   const filteredPatients = patients.filter(patient => {
     const matchesSearch = patient.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'All' || patient.status === statusFilter;
+
+    // Treat Moderate as Low for filtering
+    let displayStatus = patient.status;
+    if (displayStatus === 'Moderate') {
+      displayStatus = 'Low';
+    }
+
+    const matchesStatus = statusFilter === 'All' || displayStatus === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
