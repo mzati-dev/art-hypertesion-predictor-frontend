@@ -554,94 +554,6 @@ export default function Dashboard() {
 
 
 
-  // const predictRisk = async () => {
-  //   const validationErrors = validateForm();
-  //   if (validationErrors.length > 0) {
-  //     setError(validationErrors.join(". "));
-  //     return null;
-  //   }
-
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     // Convert empty strings to numbers for calculation
-  //     const age = patientData.age === '' ? 0 : Number(patientData.age);
-  //     const weight = patientData.weight === '' ? 0 : Number(patientData.weight);
-  //     const height = patientData.height === '' ? 0 : Number(patientData.height);
-  //     const yearsOnART = patientData.yearsOnART === '' ? 0 : Number(patientData.yearsOnART);
-
-  //     const bmi = calculateBMI(weight, height);
-  //     const bmiCategory = getBMICategory(bmi);
-  //     const ageGroup = getAgeGroup(age);
-
-  //     // Prepare data for the API
-  //     const apiData = {
-  //       patientId: `ART-${Date.now()}`,
-  //       name: patientData.name,
-  //       AGE: age,
-  //       SEX_ENCODED: patientData.sex,
-  //       'BODY MASS INDEX': bmi,
-  //       'YEARS ON ART': yearsOnART,
-  //       'BP HISTORY': patientData.bpHistory ? 1 : 0,
-  //       'EXERCISES': patientData.exercise ? 1 : 0,
-  //       'BMI_CAT_ENCODED': bmiCategory,
-  //       'AGE_GROUP_ENCODED': ageGroup,
-  //       'TENOFOVIR': getMedicationEncoded(patientData.medications, 'Tenofovir'),
-  //       'LAMIVUDINE': getMedicationEncoded(patientData.medications, 'Lamivudine'),
-  //       'DOLUTEGRAVIR': getMedicationEncoded(patientData.medications, 'Dolutegravir'),
-  //       'DARUNAVIR': getMedicationEncoded(patientData.medications, 'Darunavir'),
-  //       'ZIDOVUDINE': getMedicationEncoded(patientData.medications, 'Zidovudine'),
-  //       'ABACAVIR': getMedicationEncoded(patientData.medications, 'Abacavir')
-  //     };
-
-  //     console.log('Sending data to API:', apiData);
-
-  //     // Send request to backend
-  //     const response = await api.post('/api/predict', apiData);
-
-  //     // Save the response
-  //     setApiResponse(response.data);
-  //     savePatient(response.data, patientData, bmi);
-  //     setRetryCount(0);
-  //     return response.data;
-  //   } catch (err: any) {
-  //     console.error('Error:', err);
-
-  //     // Handle specific error cases
-  //     if (err.response) {
-  //       // The request was made and the server responded with a status code
-  //       if (err.response.data && err.response.data.details) {
-  //         setError(err.response.data.details);
-  //       } else if (err.response.data && err.response.data.message) {
-  //         setError(err.response.data.message);
-  //       } else {
-  //         setError(`Server error: ${err.response.status} - ${err.response.statusText}`);
-  //       }
-  //     } else if (err.request) {
-  //       // The request was made but no response was received
-  //       setError('No response from server. Please check if the backend is running.');
-  //     } else {
-  //       // Something happened in setting up the request
-  //       setError(`Request error: ${err.message}`);
-  //     }
-
-  //     // Retry logic
-  //     if (retryCount < 2) {
-  //       setTimeout(() => {
-  //         setRetryCount(prev => prev + 1);
-  //         predictRisk();
-  //       }, 1000 * (retryCount + 1)); // Exponential backoff: 1s, 2s
-  //     } else {
-  //       setRetryCount(0);
-  //     }
-
-  //     return null;
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const predictRisk = async () => {
     const validationErrors = validateForm();
     if (validationErrors.length > 0) {
@@ -663,18 +575,7 @@ export default function Dashboard() {
       const bmiCategory = getBMICategory(bmi);
       const ageGroup = getAgeGroup(age);
 
-      // Calculate interaction features
-      const bmiAgeInteraction = bmi * age;
-      const artAgeInteraction = yearsOnART * age;
-
-      // Calculate TDF_3TC_DTG (1 if on Tenofovir + Lamivudine + Dolutegravir)
-      const tdf3tcdtg = (
-        getMedicationEncoded(patientData.medications, 'Tenofovir') === 1 &&
-        getMedicationEncoded(patientData.medications, 'Lamivudine') === 1 &&
-        getMedicationEncoded(patientData.medications, 'Dolutegravir') === 1
-      ) ? 1 : 0;
-
-      // Prepare data for the API - MATCHING MODEL FEATURES EXACTLY
+      // Prepare data for the API
       const apiData = {
         patientId: `ART-${Date.now()}`,
         name: patientData.name,
@@ -686,13 +587,12 @@ export default function Dashboard() {
         'EXERCISES': patientData.exercise ? 1 : 0,
         'BMI_CAT_ENCODED': bmiCategory,
         'AGE_GROUP_ENCODED': ageGroup,
-        'BMI_AGE_INTERACTION': bmiAgeInteraction,
-        'ART_AGE_INTERACTION': artAgeInteraction,
         'TENOFOVIR': getMedicationEncoded(patientData.medications, 'Tenofovir'),
+        'LAMIVUDINE': getMedicationEncoded(patientData.medications, 'Lamivudine'),
         'DOLUTEGRAVIR': getMedicationEncoded(patientData.medications, 'Dolutegravir'),
         'DARUNAVIR': getMedicationEncoded(patientData.medications, 'Darunavir'),
         'ZIDOVUDINE': getMedicationEncoded(patientData.medications, 'Zidovudine'),
-        'TDF_3TC_DTG': tdf3tcdtg
+        'ABACAVIR': getMedicationEncoded(patientData.medications, 'Abacavir')
       };
 
       console.log('Sending data to API:', apiData);
@@ -710,6 +610,7 @@ export default function Dashboard() {
 
       // Handle specific error cases
       if (err.response) {
+        // The request was made and the server responded with a status code
         if (err.response.data && err.response.data.details) {
           setError(err.response.data.details);
         } else if (err.response.data && err.response.data.message) {
@@ -718,8 +619,10 @@ export default function Dashboard() {
           setError(`Server error: ${err.response.status} - ${err.response.statusText}`);
         }
       } else if (err.request) {
+        // The request was made but no response was received
         setError('No response from server. Please check if the backend is running.');
       } else {
+        // Something happened in setting up the request
         setError(`Request error: ${err.message}`);
       }
 
@@ -728,7 +631,7 @@ export default function Dashboard() {
         setTimeout(() => {
           setRetryCount(prev => prev + 1);
           predictRisk();
-        }, 1000 * (retryCount + 1));
+        }, 1000 * (retryCount + 1)); // Exponential backoff: 1s, 2s
       } else {
         setRetryCount(0);
       }
@@ -738,6 +641,103 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  // const predictRisk = async () => {
+  //   const validationErrors = validateForm();
+  //   if (validationErrors.length > 0) {
+  //     setError(validationErrors.join(". "));
+  //     return null;
+  //   }
+
+  //   setLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     // Convert empty strings to numbers for calculation
+  //     const age = patientData.age === '' ? 0 : Number(patientData.age);
+  //     const weight = patientData.weight === '' ? 0 : Number(patientData.weight);
+  //     const height = patientData.height === '' ? 0 : Number(patientData.height);
+  //     const yearsOnART = patientData.yearsOnART === '' ? 0 : Number(patientData.yearsOnART);
+
+  //     const bmi = calculateBMI(weight, height);
+  //     const bmiCategory = getBMICategory(bmi);
+  //     const ageGroup = getAgeGroup(age);
+
+  //     // Calculate interaction features
+  //     const bmiAgeInteraction = bmi * age;
+  //     const artAgeInteraction = yearsOnART * age;
+
+  //     // Calculate TDF_3TC_DTG (1 if on Tenofovir + Lamivudine + Dolutegravir)
+  //     const tdf3tcdtg = (
+  //       getMedicationEncoded(patientData.medications, 'Tenofovir') === 1 &&
+  //       getMedicationEncoded(patientData.medications, 'Lamivudine') === 1 &&
+  //       getMedicationEncoded(patientData.medications, 'Dolutegravir') === 1
+  //     ) ? 1 : 0;
+
+  //     // Prepare data for the API - MATCHING MODEL FEATURES EXACTLY
+  //     const apiData = {
+  //       patientId: `ART-${Date.now()}`,
+  //       name: patientData.name,
+  //       AGE: age,
+  //       SEX_ENCODED: patientData.sex,
+  //       'BODY MASS INDEX': bmi,
+  //       'YEARS ON ART': yearsOnART,
+  //       'BP HISTORY': patientData.bpHistory ? 1 : 0,
+  //       'EXERCISES': patientData.exercise ? 1 : 0,
+  //       'BMI_CAT_ENCODED': bmiCategory,
+  //       'AGE_GROUP_ENCODED': ageGroup,
+  //       'BMI_AGE_INTERACTION': bmiAgeInteraction,
+  //       'ART_AGE_INTERACTION': artAgeInteraction,
+  //       'TENOFOVIR': getMedicationEncoded(patientData.medications, 'Tenofovir'),
+  //       'DOLUTEGRAVIR': getMedicationEncoded(patientData.medications, 'Dolutegravir'),
+  //       'DARUNAVIR': getMedicationEncoded(patientData.medications, 'Darunavir'),
+  //       'ZIDOVUDINE': getMedicationEncoded(patientData.medications, 'Zidovudine'),
+  //       'TDF_3TC_DTG': tdf3tcdtg
+  //     };
+
+  //     console.log('Sending data to API:', apiData);
+
+  //     // Send request to backend
+  //     const response = await api.post('/api/predict', apiData);
+
+  //     // Save the response
+  //     setApiResponse(response.data);
+  //     savePatient(response.data, patientData, bmi);
+  //     setRetryCount(0);
+  //     return response.data;
+  //   } catch (err: any) {
+  //     console.error('Error:', err);
+
+  //     // Handle specific error cases
+  //     if (err.response) {
+  //       if (err.response.data && err.response.data.details) {
+  //         setError(err.response.data.details);
+  //       } else if (err.response.data && err.response.data.message) {
+  //         setError(err.response.data.message);
+  //       } else {
+  //         setError(`Server error: ${err.response.status} - ${err.response.statusText}`);
+  //       }
+  //     } else if (err.request) {
+  //       setError('No response from server. Please check if the backend is running.');
+  //     } else {
+  //       setError(`Request error: ${err.message}`);
+  //     }
+
+  //     // Retry logic
+  //     if (retryCount < 2) {
+  //       setTimeout(() => {
+  //         setRetryCount(prev => prev + 1);
+  //         predictRisk();
+  //       }, 1000 * (retryCount + 1));
+  //     } else {
+  //       setRetryCount(0);
+  //     }
+
+  //     return null;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // const predictRisk = async () => {
   //   const validationErrors = validateForm();
