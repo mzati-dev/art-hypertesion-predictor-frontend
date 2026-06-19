@@ -906,7 +906,26 @@ export default function Dashboard() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">ART Patient Dashboard</h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              <div className="bg-purple-800 bg-opacity-50 p-4 sm:p-6 rounded-lg border border-purple-600">
+                <h3 className="text-lg sm:text-xl font-semibold">Total Patients</h3>
+                <p className="text-3xl sm:text-4xl font-bold text-purple-300">{patients.length}</p>
+              </div>
+              <div className="bg-purple-800 bg-opacity-50 p-4 sm:p-6 rounded-lg border border-purple-600">
+                <h3 className="text-lg sm:text-xl font-semibold">High Risk</h3>
+                <p className="text-3xl sm:text-4xl font-bold text-red-300">
+                  {patients.filter(p => p.status === 'High').length}
+                </p>
+              </div>
+              <div className="bg-purple-800 bg-opacity-50 p-4 sm:p-6 rounded-lg border border-purple-600">
+                <h3 className="text-lg sm:text-xl font-semibold">Low Risk</h3>
+                <p className="text-3xl sm:text-4xl font-bold text-green-300">
+                  {patients.filter(p => p.status === 'Low' || p.status === 'Moderate').length}
+                </p>
+              </div>
+            </div>
+
+            {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               <div className="bg-purple-800 bg-opacity-50 p-4 sm:p-6 rounded-lg border border-purple-600">
                 <h3 className="text-lg sm:text-xl font-semibold">Total Patients</h3>
                 <p className="text-3xl sm:text-4xl font-bold text-purple-300">{patients.length}</p>
@@ -929,7 +948,7 @@ export default function Dashboard() {
                   {patients.filter(p => p.status === 'Low').length}
                 </p>
               </div>
-            </div>
+            </div> */}
 
             <div className="bg-purple-800 bg-opacity-50 p-4 sm:p-6 rounded-lg border border-purple-600">
               <h3 className="text-xl font-semibold mb-4">Patient Records</h3>
@@ -974,15 +993,15 @@ export default function Dashboard() {
                   High Risk ({patients.filter(p => p.status === 'High').length})
                 </button>
                 <button
-                  onClick={() => setStatusFilter('Moderate')}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition duration-200 cursor-pointer ${statusFilter === 'Moderate'
-                    ? 'bg-yellow-600 text-white'
-                    : 'bg-purple-900 bg-opacity-50 text-yellow-300 hover:bg-purple-700'
+                  onClick={() => setStatusFilter('Low')}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition duration-200 cursor-pointer ${statusFilter === 'Low'
+                    ? 'bg-green-600 text-white'
+                    : 'bg-purple-900 bg-opacity-50 text-green-300 hover:bg-purple-700'
                     }`}
                 >
-                  Moderate Risk ({patients.filter(p => p.status === 'Moderate').length})
+                  Low Risk ({patients.filter(p => p.status === 'Low' || p.status === 'Moderate').length})
                 </button>
-                <button
+                {/* <button
                   onClick={() => setStatusFilter('Low')}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition duration-200 cursor-pointer ${statusFilter === 'Low'
                     ? 'bg-green-600 text-white'
@@ -990,7 +1009,7 @@ export default function Dashboard() {
                     }`}
                 >
                   Low Risk ({patients.filter(p => p.status === 'Low').length})
-                </button>
+                </button> */}
               </div>
               <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
                 <table className="min-w-full divide-y divide-purple-600">
@@ -1023,7 +1042,8 @@ export default function Dashboard() {
                               patient.status === 'Moderate' ? 'bg-green-900 text-green-100' :
                                 'bg-green-900 text-green-100'
                               }`}>
-                              {patient.status === 'Moderate' ? 'Low' : patient.status}
+                              {patient.status === 'Moderate' ? 'Low' : patient.status} Risk
+                              {/* {patient.status === 'Moderate' ? 'Low' : patient.status} */}
                             </span>
                             {/* <span className={`px-2 py-1 rounded-full text-xs font-medium ${patient.status === 'High' ? 'bg-red-900 text-red-100' :
                               patient.status === 'Moderate' ? 'bg-yellow-900 text-yellow-100' :
