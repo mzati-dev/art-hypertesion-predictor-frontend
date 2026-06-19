@@ -539,6 +539,8 @@ export default function Dashboard() {
     return medications.includes(medicationName) ? 1 : 0;
   };
 
+
+
   // const predictRisk = async () => {
   //   const validationErrors = validateForm();
   //   if (validationErrors.length > 0) {
@@ -550,18 +552,24 @@ export default function Dashboard() {
   //   setError(null);
 
   //   try {
-  //     const bmi = calculateBMI(patientData.weight, patientData.height);
+  //     // Convert empty strings to numbers for calculation
+  //     const age = patientData.age === '' ? 0 : Number(patientData.age);
+  //     const weight = patientData.weight === '' ? 0 : Number(patientData.weight);
+  //     const height = patientData.height === '' ? 0 : Number(patientData.height);
+  //     const yearsOnART = patientData.yearsOnART === '' ? 0 : Number(patientData.yearsOnART);
+
+  //     const bmi = calculateBMI(weight, height);
   //     const bmiCategory = getBMICategory(bmi);
-  //     const ageGroup = getAgeGroup(patientData.age);
+  //     const ageGroup = getAgeGroup(age);
 
   //     // Prepare data for the API
   //     const apiData = {
   //       patientId: `ART-${Date.now()}`,
   //       name: patientData.name,
-  //       AGE: patientData.age,
+  //       AGE: age,
   //       SEX_ENCODED: patientData.sex,
   //       'BODY MASS INDEX': bmi,
-  //       'YEARS ON ART': patientData.yearsOnART,
+  //       'YEARS ON ART': yearsOnART,
   //       'BP HISTORY': patientData.bpHistory ? 1 : 0,
   //       'EXERCISES': patientData.exercise ? 1 : 0,
   //       'BMI_CAT_ENCODED': bmiCategory,
@@ -589,22 +597,30 @@ export default function Dashboard() {
 
   //     // Handle specific error cases
   //     if (err.response) {
+  //       // The request was made and the server responded with a status code
   //       if (err.response.data && err.response.data.details) {
   //         setError(err.response.data.details);
+  //       } else if (err.response.data && err.response.data.message) {
+  //         setError(err.response.data.message);
   //       } else {
-  //         setError(err.response.data?.message || 'An error occurred');
+  //         setError(`Server error: ${err.response.status} - ${err.response.statusText}`);
   //       }
   //     } else if (err.request) {
-  //       setError('No response from server. Please check your connection.');
+  //       // The request was made but no response was received
+  //       setError('No response from server. Please check if the backend is running.');
   //     } else {
-  //       setError('An unexpected error occurred');
+  //       // Something happened in setting up the request
+  //       setError(`Request error: ${err.message}`);
   //     }
 
   //     // Retry logic
   //     if (retryCount < 2) {
-  //       setRetryCount(prev => prev + 1);
-  //       await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-  //       return predictRisk();
+  //       setTimeout(() => {
+  //         setRetryCount(prev => prev + 1);
+  //         predictRisk();
+  //       }, 1000 * (retryCount + 1)); // Exponential backoff: 1s, 2s
+  //     } else {
+  //       setRetryCount(0);
   //     }
 
   //     return null;
@@ -634,24 +650,45 @@ export default function Dashboard() {
       const bmiCategory = getBMICategory(bmi);
       const ageGroup = getAgeGroup(age);
 
-      // Prepare data for the API
+      // *** CALCULATE ENGINEERED FEATURES ***
+      const ageBMI = (age * bmi) / 100;  // Age-BMI interaction
+      const ageART = (age * yearsOnART) / 100;  // Age-Years on ART interaction
+      const bmiART = (bmi * yearsOnART) / 10;  // BMI-Years on ART interaction
+      const bpHistory = patientData.bpHistory ? 1 : 0;
+      const exercise = patientData.exercise ? 1 : 0;
+      const longTermART = yearsOnART > 10 ? 1 : 0;
+      const olderAge = age > 50 ? 1 : 0;
+      const medicationCount = patientData.medications.length;
+
+      // Prepare data for the API with ALL features
       const apiData = {
         patientId: `ART-${Date.now()}`,
         name: patientData.name,
+        // Original features
         AGE: age,
         SEX_ENCODED: patientData.sex,
         'BODY MASS INDEX': bmi,
         'YEARS ON ART': yearsOnART,
-        'BP HISTORY': patientData.bpHistory ? 1 : 0,
-        'EXERCISES': patientData.exercise ? 1 : 0,
+        'BP HISTORY': bpHistory,
+        'EXERCISES': exercise,
         'BMI_CAT_ENCODED': bmiCategory,
         'AGE_GROUP_ENCODED': ageGroup,
+        // Individual medication flags
         'TENOFOVIR': getMedicationEncoded(patientData.medications, 'Tenofovir'),
         'LAMIVUDINE': getMedicationEncoded(patientData.medications, 'Lamivudine'),
         'DOLUTEGRAVIR': getMedicationEncoded(patientData.medications, 'Dolutegravir'),
         'DARUNAVIR': getMedicationEncoded(patientData.medications, 'Darunavir'),
         'ZIDOVUDINE': getMedicationEncoded(patientData.medications, 'Zidovudine'),
-        'ABACAVIR': getMedicationEncoded(patientData.medications, 'Abacavir')
+        'ABACAVIR': getMedicationEncoded(patientData.medications, 'Abacavir'),
+        // *** NEW ENGINEERED FEATURES (ADD THESE) ***
+        'AGE_BMI': ageBMI,
+        'AGE_ART': ageART,
+        'BMI_ART': bmiART,
+        'HAS_BP_HISTORY': bpHistory,
+        'EXERCISE': exercise,
+        'LONG_TERM_ART': longTermART,
+        'OLDER_AGE': olderAge,
+        'MEDICATION_COUNT': medicationCount
       };
 
       console.log('Sending data to API:', apiData);
