@@ -1432,12 +1432,21 @@ export default function Dashboard() {
                           <p className="flex items-center gap-2">
                             <span className="font-medium">Status:</span>
                             <span className={`px-2 py-1 rounded-full text-sm font-medium ${apiResponse.riskLevel === 'High' ? 'bg-red-900 text-red-100' :
+                              apiResponse.riskLevel === 'Moderate' ? 'bg-green-900 text-green-100' :
+                                'bg-green-900 text-green-100'
+                              }`}>
+                              {apiResponse.riskLevel === 'Moderate' ? 'Low' : apiResponse.riskLevel} Risk
+                            </span>
+                          </p>
+                          {/* <p className="flex items-center gap-2">
+                            <span className="font-medium">Status:</span>
+                            <span className={`px-2 py-1 rounded-full text-sm font-medium ${apiResponse.riskLevel === 'High' ? 'bg-red-900 text-red-100' :
                               apiResponse.riskLevel === 'Moderate' ? 'bg-yellow-900 text-yellow-100' :
                                 'bg-green-900 text-green-100'
                               }`}>
                               {apiResponse.riskLevel} Risk
                             </span>
-                          </p>
+                          </p> */}
                           <p><span className="font-medium">Probability:</span> {apiResponse.riskScore || (apiResponse.probability * 100).toFixed(1) + '%'}</p>
                           <p><span className="font-medium">Prediction:</span> {apiResponse.prediction}</p>
                           <p><span className="font-medium">Model Used:</span> {apiResponse.modelUsed || 'Random Forest'}</p>
